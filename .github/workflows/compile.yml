@@ -25,7 +25,6 @@ jobs:
           path: Include/EA31337-classes
           repository: EA31337/EA31337-classes
       - name: Compile for MQL4
-        if: false
         uses: fx31337/mql-compile-action@master
         with:
           path: Stg_Demo.mq4
