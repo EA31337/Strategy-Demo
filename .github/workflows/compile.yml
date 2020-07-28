@@ -33,7 +33,6 @@ jobs:
           mt-version: 5.0.0.2361
           verbose: true
       - name: Compile for MQL5
-        if: false
         uses: fx31337/mql-compile-action@master
         with:
           path: Stg_Demo.mq5
