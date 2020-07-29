@@ -19,7 +19,7 @@ INPUT int Demo_SignalCloseMethod = 0;                             // Signal clos
 INPUT float Demo_SignalCloseLevel = 0;                            // Signal close level
 INPUT int Demo_PriceLimitMethod = 0;                              // Price limit method
 INPUT float Demo_PriceLimitLevel = 2;                             // Price limit level
-INPUT int Demo_TickFilterMethod = 0;                              // Tick filter method
+INPUT int Demo_TickFilterMethod = 1;                              // Tick filter method
 INPUT float Demo_MaxSpread = 2.0;                                 // Max spread to trade (in pips)
 
 // Struct to define strategy parameters to override.
@@ -92,12 +92,19 @@ class Stg_Demo : public Strategy {
     Indicator *_indi = Data();
     bool _is_valid = _indi[CURR].IsValid();
     bool _result = _is_valid;
+    if (!_result) {
+      // Returns false when indicator data is not valid.
+      return false;
+    }
+    double _value = _indi[CURR][0];
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         // Buy signal.
+        _result = _indi[CURR][0] < _indi[PREV][0];
         break;
       case ORDER_TYPE_SELL:
         // Sell signal.
+        _result = _indi[CURR][0] < _indi[PREV][0];
         break;
     }
     return _result;
