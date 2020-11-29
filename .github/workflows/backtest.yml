@@ -1,5 +1,5 @@
 ---
-name: Compile
+name: Backtest
 
 # yamllint disable-line rule:truthy
 on:
@@ -9,14 +9,12 @@ on:
       - 'dev*'
     paths-ignore:
       - '*.md'
-      - '.git*'
   push:
     branches:
       - 'master'
       - 'dev*'
     paths-ignore:
       - '*.md'
-      - '.git*'
 
 jobs:
   Compile:
@@ -29,7 +27,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: Include/EA31337-classes
-          ref: master
+          ref: dev
           repository: EA31337/EA31337-classes
       - name: Compile for MQL4
         uses: fx31337/mql-compile-action@master
@@ -51,3 +49,36 @@ jobs:
       - name: List compiled files
         run: '(Get-ChildItem -Recurse -Path . -Include *.ex[45]).fullname'
       - run: Get-Location
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: EA
+          path: '*.ex?'
+  Test:
+    needs: Compile
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        month: [1]
+        year: [2018, 2019]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: EA
+      - name: Run strategy
+        uses: ea31337/mql-tester-action@dev
+        with:
+          BtDest: ${{ github.workspace }}/_results
+          BtMonths: ${{ matrix.month }}
+          BtYears: ${{ matrix.year }}
+          OptFormatBrief: true
+          OptFormatJson: true
+          OptVerbose: true
+          TestExpert: "Stg_Demo"
+          TestPeriod: M1
+          TestReportName: Report-${{ matrix.year }}-${{ matrix.month }}
+      - name: Upload results
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: ${{ github.workspace }}/_results/*.*
