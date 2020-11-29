@@ -12,8 +12,8 @@ INPUT float Demo_SignalOpenLevel = 0;       // Signal open level
 INPUT int Demo_SignalOpenBoostMethod = 0;   // Signal open boost method
 INPUT int Demo_SignalCloseMethod = 0;       // Signal close method
 INPUT float Demo_SignalCloseLevel = 0;      // Signal close level
-INPUT int Demo_PriceLimitMethod = 0;        // Price limit method
-INPUT float Demo_PriceLimitLevel = 2;       // Price limit level
+INPUT int Demo_PriceStopMethod = 0;         // Price limit method
+INPUT float Demo_PriceStopLevel = 2;        // Price limit level
 INPUT int Demo_TickFilterMethod = 1;        // Tick filter method (0-255)
 INPUT float Demo_MaxSpread = 2.0;           // Max spread to trade (in pips)
 
@@ -26,7 +26,7 @@ struct Stg_Demo_Params_Defaults : StgParams {
   Stg_Demo_Params_Defaults()
       : StgParams(::Demo_SignalOpenMethod, ::Demo_SignalOpenFilterMethod, ::Demo_SignalOpenLevel,
                   ::Demo_SignalOpenBoostMethod, ::Demo_SignalCloseMethod, ::Demo_SignalCloseLevel,
-                  ::Demo_PriceLimitMethod, ::Demo_PriceLimitLevel, ::Demo_TickFilterMethod, ::Demo_MaxSpread,
+                  ::Demo_PriceStopMethod, ::Demo_PriceStopLevel, ::Demo_TickFilterMethod, ::Demo_MaxSpread,
                   ::Demo_Shift) {}
 } stg_demo_defaults;
 
@@ -39,13 +39,13 @@ struct Stg_Demo_Params {
 };
 
 // Loads pair specific param values.
-#include "sets/EURUSD_H1.h"
-#include "sets/EURUSD_H4.h"
-#include "sets/EURUSD_H8.h"
-#include "sets/EURUSD_M1.h"
-#include "sets/EURUSD_M15.h"
-#include "sets/EURUSD_M30.h"
-#include "sets/EURUSD_M5.h"
+#include "config/EURUSD_H1.h"
+#include "config/EURUSD_H4.h"
+#include "config/EURUSD_H8.h"
+#include "config/EURUSD_M1.h"
+#include "config/EURUSD_M15.h"
+#include "config/EURUSD_M30.h"
+#include "config/EURUSD_M5.h"
 
 class Stg_Demo : public Strategy {
  public:
@@ -73,23 +73,23 @@ class Stg_Demo : public Strategy {
   /**
    * Check strategy's opening signal.
    */
-  bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0f) {
+  bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0f, int _shift = 0) {
     Indicator *_indi = Data();
-    bool _is_valid = _indi[CURR].IsValid();
+    bool _is_valid = _indi[_shift].IsValid();
     bool _result = _is_valid;
     if (!_result) {
       // Returns false when indicator data is not valid.
       return false;
     }
-    double _value = _indi[CURR][0];
+    double _value = _indi[_shift][0];
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         // Buy signal.
-        _result = _indi[CURR][0] < _indi[PREV][0];
+        _result = _indi[_shift][0] < _indi[_shift + 1][0];
         break;
       case ORDER_TYPE_SELL:
         // Sell signal.
-        _result = _indi[CURR][0] < _indi[PREV][0];
+        _result = _indi[_shift][0] < _indi[_shift + 1][0];
         break;
     }
     return _result;
@@ -98,7 +98,7 @@ class Stg_Demo : public Strategy {
   /**
    * Gets price limit value for profit take or stop loss.
    */
-  float PriceLimit(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0f) {
+  float PriceStop(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0f) {
     // Indicator *_indi = Data();
     double _trail = _level * Market().GetPipSize();
     // int _bar_count = (int)_level * 10;
