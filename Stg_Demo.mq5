@@ -3,21 +3,25 @@
  * Implements Demo strategy.
  */
 
+// Includes conditional compilation directives.
+#include "config/define.h"
+
 // Includes EA31337 framework.
 #include <EA31337-classes/EA.mqh>
+#include <EA31337-classes/Indicators/Indi_Demo.mqh>
+#include <EA31337-classes/Strategy.mqh>
 
 // Inputs.
-input string __Demo_Parameters__ = "-- Demo strategy params --";  // >>> Demo <<<
-input int Active_Tfs = 127;               // Activated timeframes (1-255) [M1=1,M5=2,M15=4,M30=8,H1=16,H4=32,H8=64...]
+input int Active_Tfs = 15;                // Activated timeframes (1-255) [M1=1,M5=2,M15=4,M30=8,H1=16,H4=32,H8=64...]
 input ENUM_LOG_LEVEL Log_Level = V_INFO;  // Log level.
 input bool Info_On_Chart = true;          // Display info on chart.
 
-// Includes main strategy class.
+// Includes strategy.
 #include "Stg_Demo.mqh"
 
 // Defines.
 #define ea_name "Strategy Demo"
-#define ea_version "1.000"
+#define ea_version "1.001"
 #define ea_desc "Strategy based on EA31337 framework."
 #define ea_link "https://github.com/EA31337/Strategy-Demo"
 #define ea_author "kenorb"
@@ -29,6 +33,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #property description ea_desc
 #endif
 #property link ea_link
+#property copyright "Copyright 2016-2021, EA31337 Ltd"
 
 // Class variables.
 EA *ea;
@@ -52,8 +57,7 @@ int OnInit() {
 /**
  * Implements "Tick" event handler function (EA only).
  *
- * Invoked when a new tick for a symbol is received, to the chart of which the
- * Expert Advisor is attached.
+ * Invoked when a new tick for a symbol is received, to the chart of which the Expert Advisor is attached.
  */
 void OnTick() {
   ea.ProcessTick();

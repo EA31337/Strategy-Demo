@@ -4,8 +4,8 @@
  */
 
 // User input params.
+INPUT string __Demo_Parameters__ = "-- Demo strategy params --";  // >>> Demo <<<
 INPUT float Demo_LotSize = 0;               // Lot size
-INPUT int Demo_Shift = 0;                   // Shift (relative to the current bar, 0 - default)
 INPUT int Demo_SignalOpenMethod = 0;        // Signal open method
 INPUT int Demo_SignalOpenFilterMethod = 0;  // Signal open filter method
 INPUT float Demo_SignalOpenLevel = 0;       // Signal open level
@@ -15,19 +15,16 @@ INPUT float Demo_SignalCloseLevel = 0;      // Signal close level
 INPUT int Demo_PriceStopMethod = 0;         // Price limit method
 INPUT float Demo_PriceStopLevel = 2;        // Price limit level
 INPUT int Demo_TickFilterMethod = 1;        // Tick filter method (0-255)
-INPUT float Demo_MaxSpread = 2.0;           // Max spread to trade (in pips)
-
-// Includes.
-#include <EA31337-classes/Indicators/Indi_Demo.mqh>
-#include <EA31337-classes/Strategy.mqh>
+INPUT float Demo_MaxSpread = 4.0;           // Max spread to trade (in pips)
+INPUT short Demo_Shift = 0;                                      // Shift
+INPUT int Demo_OrderCloseTime = -20;                             // Order close time in mins (>0) or bars (<0)
 
 // Defines struct with default user strategy values.
 struct Stg_Demo_Params_Defaults : StgParams {
   Stg_Demo_Params_Defaults()
       : StgParams(::Demo_SignalOpenMethod, ::Demo_SignalOpenFilterMethod, ::Demo_SignalOpenLevel,
-                  ::Demo_SignalOpenBoostMethod, ::Demo_SignalCloseMethod, ::Demo_SignalCloseLevel,
-                  ::Demo_PriceStopMethod, ::Demo_PriceStopLevel, ::Demo_TickFilterMethod, ::Demo_MaxSpread,
-                  ::Demo_Shift) {}
+                  ::Demo_SignalOpenBoostMethod, ::Demo_SignalCloseMethod, ::Demo_SignalCloseLevel, ::Demo_PriceStopMethod,
+                  ::Demo_PriceStopLevel, ::Demo_TickFilterMethod, ::Demo_MaxSpread, ::Demo_Shift, ::Demo_OrderCloseTime) {}
 } stg_demo_defaults;
 
 // Defines struct to store indicator and strategy params.
