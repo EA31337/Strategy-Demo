@@ -16,7 +16,7 @@ struct Stg_Demo_Params_{{ Timeframe }} : StgParams {
   Stg_Demo_Params_{{ Timeframe }}() : StgParams(stg_demo_defaults) {
     lot_size = {{ Demo_LotSize | default(0) }};
     signal_open_method = {{ Demo_SignalOpenMethod | default(0) }};
-    signal_open_filter = {{ Demo_SignalOpenFilterMethod | default(1) }};
+    signal_open_filter_method = {{ Demo_SignalOpenFilterMethod | default(1) }};
     signal_open_level = (float){{ Demo_SignalOpenLevel | default(0) }};
     signal_open_boost = {{ Demo_SignalOpenBoostMethod | default(0) }};
     signal_close_method = {{ Demo_SignalCloseMethod | default(0) }};

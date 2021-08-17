@@ -12,7 +12,7 @@
 #include <EA31337-classes/Strategy.mqh>
 
 // Inputs.
-input int Active_Tfs = 15;                // Activated timeframes (1-255) [M1=1,M5=2,M15=4,M30=8,H1=16,H4=32,H8=64...]
+input int Active_Tfs = 28;                // Activated timeframes (1-255) [M1=1,M5=2,M15=4,M30=8,H1=16,H4=32,H8=64...]
 input ENUM_LOG_LEVEL Log_Level = V_INFO;  // Log level.
 input bool Info_On_Chart = true;          // Display info on chart.
 
@@ -21,10 +21,10 @@ input bool Info_On_Chart = true;          // Display info on chart.
 
 // Defines.
 #define ea_name "Strategy Demo"
-#define ea_version "1.004"
+#define ea_version "1.005"
 #define ea_desc "Strategy based on EA31337 framework."
 #define ea_link "https://github.com/EA31337/Strategy-Demo"
-#define ea_author "kenorb"
+#define ea_author "EA31337 Ltd"
 
 // Properties.
 #property version ea_version
@@ -61,7 +61,7 @@ int OnInit() {
  */
 void OnTick() {
   ea.ProcessTick();
-  if (!ea.Terminal().IsOptimization()) {
+  if (!ea.GetTerminal().IsOptimization()) {
     ea.Log().Flush(2);
     ea.UpdateInfoOnChart();
   }

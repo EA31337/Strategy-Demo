@@ -8,7 +8,7 @@ This is example demo strategy for the demonstration purposes.
 [![Discuss][gh-discuss-badge]][gh-discuss-link]
 [![License][license-image]][license-link]
 
-Strategy based on the Relative Strength Index indicator.
+Strategy based on the Demo indicator.
 
 ## Dependencies
 
