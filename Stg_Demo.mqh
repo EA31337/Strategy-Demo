@@ -44,7 +44,7 @@ struct Stg_Demo_Params : StgParams {
 
   // Struct constructors.
   Stg_Demo_Params(DemoIndiParams &_iparams, StgParams &_sparams)
-      : iparams(indi_demo_defaults, _iparams.tf), sparams(stg_demo_defaults) {
+      : iparams(indi_demo_defaults, _iparams.tf.GetTf()), sparams(stg_demo_defaults) {
     iparams = _iparams;
     sparams = _sparams;
   }
