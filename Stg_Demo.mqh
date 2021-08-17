@@ -18,6 +18,16 @@ INPUT int Demo_TickFilterMethod = 1;        // Tick filter method (0-255)
 INPUT float Demo_MaxSpread = 4.0;           // Max spread to trade (in pips)
 INPUT short Demo_Shift = 0;                                      // Shift
 INPUT int Demo_OrderCloseTime = -20;                             // Order close time in mins (>0) or bars (<0)
+INPUT string __Demo_Indi_Demo_Parameters__ =
+    "-- Demo strategy: Demo indicator params --";                               // >>> Demo strategy: Demo indicator <<<
+INPUT int Demo_Indi_Demo_Shift = 0;                                             // Shift
+
+// Structs.
+
+// Defines struct with default user indicator values.
+struct Indi_Demo_Params_Defaults : DemoIndiParams {
+  Indi_Demo_Params_Defaults() : DemoIndiParams(::Demo_Indi_Demo_Shift) {}
+} indi_demo_defaults;
 
 // Defines struct with default user strategy values.
 struct Stg_Demo_Params_Defaults : StgParams {
@@ -27,12 +37,17 @@ struct Stg_Demo_Params_Defaults : StgParams {
                   ::Demo_PriceStopLevel, ::Demo_TickFilterMethod, ::Demo_MaxSpread, ::Demo_Shift, ::Demo_OrderCloseTime) {}
 } stg_demo_defaults;
 
-// Defines struct to store indicator and strategy params.
-struct Stg_Demo_Params {
+// Struct to define strategy parameters to override.
+struct Stg_Demo_Params : StgParams {
+  DemoIndiParams iparams;
   StgParams sparams;
 
   // Struct constructors.
-  Stg_Demo_Params(StgParams &_sparams) : sparams(stg_demo_defaults) { sparams = _sparams; }
+  Stg_Demo_Params(DemoIndiParams &_iparams, StgParams &_sparams)
+      : iparams(indi_demo_defaults, _iparams.tf), sparams(stg_demo_defaults) {
+    iparams = _iparams;
+    sparams = _sparams;
+  }
 };
 
 // Loads pair specific param values.
@@ -46,32 +61,34 @@ struct Stg_Demo_Params {
 
 class Stg_Demo : public Strategy {
  public:
-  Stg_Demo(StgParams &_params, string _name) : Strategy(_params, _name) {}
+  Stg_Demo(StgParams &_sparams, TradeParams &_tparams, ChartParams &_cparams, string _name = "")
+      : Strategy(_sparams, _tparams, _cparams, _name) {}
 
   static Stg_Demo *Init(ENUM_TIMEFRAMES _tf = NULL, long _magic_no = NULL, ENUM_LOG_LEVEL _log_level = V_INFO) {
     // Initialize strategy initial values.
+    DemoIndiParams _indi_params(indi_demo_defaults, _tf);
     StgParams _stg_params(stg_demo_defaults);
-    if (!Terminal::IsOptimization()) {
-      SetParamsByTf<StgParams>(_stg_params, _tf, stg_demo_m1, stg_demo_m5, stg_demo_m15, stg_demo_m30, stg_demo_h1,
-                               stg_demo_h4, stg_demo_h8);
-    }
+#ifdef __config__
+    SetParamsByTf<DemoIndiParams>(_indi_params, _tf, indi_demo_m1, indi_demo_m5, indi_demo_m15, indi_demo_m30, indi_demo_h1,
+                             indi_demo_h4, indi_demo_h8);
+    SetParamsByTf<StgParams>(_stg_params, _tf, stg_demo_m1, stg_demo_m5, stg_demo_m15, stg_demo_m30, stg_demo_h1, stg_demo_h4,
+                             stg_demo_h8);
+#endif
     // Initialize indicator.
-    _stg_params.SetIndicator(new Indi_Demo());
-    // Initialize strategy parameters.
-    _stg_params.GetLog().SetLevel(_log_level);
-    _stg_params.SetMagicNo(_magic_no);
-    _stg_params.SetTf(_tf, _Symbol);
-    // Initialize strategy instance.
-    Strategy *_strat = new Stg_Demo(_stg_params, "Demo");
-    _stg_params.SetStops(_strat, _strat);
+    DemoIndiParams demo_params(_indi_params);
+    _stg_params.SetIndicator(new Indi_Demo(_indi_params));
+    // Initialize Strategy instance.
+    ChartParams _cparams(_tf, _Symbol);
+    TradeParams _tparams(_magic_no, _log_level);
+    Strategy *_strat = new Stg_Demo(_stg_params, _tparams, _cparams, "Demo");
     return _strat;
   }
 
   /**
    * Check strategy's opening signal.
    */
-  bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0f, int _shift = 0) {
-    Indicator *_indi = Data();
+  bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method, float _level = 0.0f, int _shift = 0) {
+    Indi_Demo *_indi = GetIndicator();
     bool _is_valid = _indi[_shift].IsValid();
     bool _result = _is_valid;
     if (!_result) {
@@ -93,16 +110,14 @@ class Stg_Demo : public Strategy {
   }
 
   /**
-   * Gets price limit value for profit take or stop loss.
+   * Gets price stop value for profit take or stop loss.
    */
   float PriceStop(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0f) {
-    // Indicator *_indi = Data();
+    Indi_Demo *_indi = GetIndicator();
     double _trail = _level * Market().GetPipSize();
-    // int _bar_count = (int)_level * 10;
     int _direction = Order::OrderDirection(_cmd, _mode);
     double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
     double _result = _default_value;
-    // ENUM_APPLIED_PRICE _ap = _direction > 0 ? PRICE_HIGH : PRICE_LOW;
     switch (_method) {
       case 1:
         // Trailing stop here.
