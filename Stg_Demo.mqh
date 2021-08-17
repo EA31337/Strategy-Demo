@@ -108,21 +108,4 @@ class Stg_Demo : public Strategy {
     }
     return _result;
   }
-
-  /**
-   * Gets price stop value for profit take or stop loss.
-   */
-  float PriceStop(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0f) {
-    Indi_Demo *_indi = GetIndicator();
-    double _trail = _level * Market().GetPipSize();
-    int _direction = Order::OrderDirection(_cmd, _mode);
-    double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
-    double _result = _default_value;
-    switch (_method) {
-      case 1:
-        // Trailing stop here.
-        break;
-    }
-    return (float)_result;
-  }
 };
