@@ -39,6 +39,7 @@ struct Stg_Demo_Params_Defaults : StgParams {
                   ::Demo_SignalOpenBoostMethod, ::Demo_SignalCloseMethod, ::Demo_SignalCloseFilter,
                   ::Demo_SignalCloseLevel, ::Demo_PriceStopMethod, ::Demo_PriceStopLevel, ::Demo_TickFilterMethod,
                   ::Demo_MaxSpread, ::Demo_Shift) {
+    Set(STRAT_PARAM_LS, Demo_LotSize);
     Set(STRAT_PARAM_OCL, Demo_OrderCloseLoss);
     Set(STRAT_PARAM_OCP, Demo_OrderCloseProfit);
     Set(STRAT_PARAM_OCT, Demo_OrderCloseTime);
