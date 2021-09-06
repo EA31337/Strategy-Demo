@@ -24,12 +24,13 @@ INPUT float Demo_OrderCloseProfit = 0;       // Order close profit
 INPUT int Demo_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("Demo strategy: Demo indicator params");
 INPUT int Demo_Indi_Demo_Shift = 0;  // Shift
+INPUT ENUM_IDATA_SOURCE_TYPE Demo_Indi_Demo_SourceType = IDATA_INDICATOR;  // Source type
 
 // Structs.
 
 // Defines struct with default user indicator values.
 struct Indi_Demo_Params_Defaults : DemoIndiParams {
-  Indi_Demo_Params_Defaults() : DemoIndiParams(::Demo_Indi_Demo_Shift) {}
+  Indi_Demo_Params_Defaults() : DemoIndiParams(::Demo_Indi_Demo_Shift, PERIOD_CURRENT, ::Demo_Indi_Demo_SourceType) {}
 } indi_demo_defaults;
 
 // Defines struct with default user strategy values.
@@ -46,19 +47,6 @@ struct Stg_Demo_Params_Defaults : StgParams {
     Set(STRAT_PARAM_SOFT, Demo_SignalOpenFilterTime);
   }
 } stg_demo_defaults;
-
-// Struct to define strategy parameters to override.
-struct Stg_Demo_Params : StgParams {
-  DemoIndiParams iparams;
-  StgParams sparams;
-
-  // Struct constructors.
-  Stg_Demo_Params(DemoIndiParams &_iparams, StgParams &_sparams)
-      : iparams(indi_demo_defaults, _iparams.tf.GetTf()), sparams(stg_demo_defaults) {
-    iparams = _iparams;
-    sparams = _sparams;
-  }
-};
 
 #ifdef __config__
 // Loads pair specific param values.
