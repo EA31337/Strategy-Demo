@@ -1,7 +1,5 @@
 # Strategy Demo
 
-This is example demo strategy for the demonstration purposes.
-
 [![Status][gha-image-check-master]][gha-link-check-master]
 [![Status][gha-image-compile-master]][gha-link-compile-master]
 [![Channel][tg-channel-image]][tg-channel-link]
@@ -9,6 +7,8 @@ This is example demo strategy for the demonstration purposes.
 [![License][license-image]][license-link]
 
 Strategy based on the Demo indicator.
+
+This is example demo strategy for the demonstration purposes.
 
 ## Dependencies
 
@@ -19,6 +19,8 @@ Strategy based on the Demo indicator.
 | v1.002   | v2.002    |
 | v1.003   | v2.003    |
 | v1.004   | v2.004    |
+| v1.005   | v2.005    |
+| v1.005   | v2.005    |
 
 <!-- Named links -->
 
