@@ -19,11 +19,11 @@ INPUT float Demo_PriceStopLevel = 2;         // Price limit level
 INPUT int Demo_TickFilterMethod = 28;        // Tick filter method (0-255)
 INPUT float Demo_MaxSpread = 4.0;            // Max spread to trade (in pips)
 INPUT short Demo_Shift = 0;                  // Shift
-INPUT float Demo_OrderCloseLoss = 0;         // Order close loss
-INPUT float Demo_OrderCloseProfit = 0;       // Order close profit
+INPUT float Demo_OrderCloseLoss = 80;        // Order close loss
+INPUT float Demo_OrderCloseProfit = 80;      // Order close profit
 INPUT int Demo_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("Demo strategy: Demo indicator params");
-INPUT int Demo_Indi_Demo_Shift = 0;  // Shift
+INPUT int Demo_Indi_Demo_Shift = 0;                                        // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE Demo_Indi_Demo_SourceType = IDATA_INDICATOR;  // Source type
 
 // Structs.
