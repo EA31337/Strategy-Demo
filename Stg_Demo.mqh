@@ -46,7 +46,7 @@ struct Stg_Demo_Params_Defaults : StgParams {
     Set(STRAT_PARAM_OCT, Demo_OrderCloseTime);
     Set(STRAT_PARAM_SOFT, Demo_SignalOpenFilterTime);
   }
-} stg_demo_defaults;
+};
 
 #ifdef __config__
 // Loads pair specific param values.
@@ -68,6 +68,7 @@ class Stg_Demo : public Strategy {
     // Initialize strategy initial values.
     Indi_Demo_Params_Defaults _indi_demo_defaults;
     DemoIndiParams _indi_params(_indi_demo_defaults, _tf);
+    Stg_Demo_Params_Defaults stg_demo_defaults;
     StgParams _stg_params(stg_demo_defaults);
 #ifdef __config__
     SetParamsByTf<DemoIndiParams>(_indi_params, _tf, indi_demo_m1, indi_demo_m5, indi_demo_m15, indi_demo_m30,
