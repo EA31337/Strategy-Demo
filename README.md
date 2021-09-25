@@ -20,7 +20,8 @@ This is example demo strategy for the demonstration purposes.
 | v1.003   | v2.003    |
 | v1.004   | v2.004    |
 | v1.005   | v2.005    |
-| v1.005   | v2.005    |
+| v1.006   | v2.006    |
+| v1.007   | v2.007    |
 
 <!-- Named links -->
 
