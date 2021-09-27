@@ -77,11 +77,11 @@ class Stg_Demo : public Strategy {
                              stg_demo_h4, stg_demo_h8);
 #endif
     // Initialize indicator.
-    _stg_params.SetIndicator(new Indi_Demo(_indi_params));
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
     Strategy *_strat = new Stg_Demo(_stg_params, _tparams, _cparams, "Demo");
+    _strat.SetIndicator(new Indi_Demo(_indi_params));
     return _strat;
   }
 
