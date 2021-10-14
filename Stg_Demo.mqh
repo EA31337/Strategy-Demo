@@ -30,7 +30,9 @@ INPUT ENUM_IDATA_SOURCE_TYPE Demo_Indi_Demo_SourceType = IDATA_INDICATOR;  // So
 
 // Defines struct with default user indicator values.
 struct Indi_Demo_Params_Defaults : DemoIndiParams {
-  Indi_Demo_Params_Defaults() : DemoIndiParams(::Demo_Indi_Demo_Shift, PERIOD_CURRENT, ::Demo_Indi_Demo_SourceType) {}
+  Indi_Demo_Params_Defaults() : DemoIndiParams(::Demo_Indi_Demo_Shift) {
+    SetDataSourceType(::Demo_Indi_Demo_SourceType);
+  }
 };
 
 // Defines struct with default user strategy values.
