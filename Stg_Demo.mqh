@@ -29,8 +29,8 @@ INPUT ENUM_IDATA_SOURCE_TYPE Demo_Indi_Demo_SourceType = IDATA_INDICATOR;  // So
 // Structs.
 
 // Defines struct with default user indicator values.
-struct Indi_Demo_Params_Defaults : DemoIndiParams {
-  Indi_Demo_Params_Defaults() : DemoIndiParams(::Demo_Indi_Demo_Shift) {
+struct Indi_Demo_Params_Defaults : IndiDemoParams {
+  Indi_Demo_Params_Defaults() : IndiDemoParams(::Demo_Indi_Demo_Shift) {
     SetDataSourceType(::Demo_Indi_Demo_SourceType);
   }
 };
@@ -69,11 +69,11 @@ class Stg_Demo : public Strategy {
   static Stg_Demo *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
     Indi_Demo_Params_Defaults _indi_demo_defaults;
-    DemoIndiParams _indi_params(_indi_demo_defaults, _tf);
+    IndiDemoParams _indi_params(_indi_demo_defaults, _tf);
     Stg_Demo_Params_Defaults stg_demo_defaults;
     StgParams _stg_params(stg_demo_defaults);
 #ifdef __config__
-    SetParamsByTf<DemoIndiParams>(_indi_params, _tf, indi_demo_m1, indi_demo_m5, indi_demo_m15, indi_demo_m30,
+    SetParamsByTf<IndiDemoParams>(_indi_params, _tf, indi_demo_m1, indi_demo_m5, indi_demo_m15, indi_demo_m30,
                                   indi_demo_h1, indi_demo_h4, indi_demo_h8);
     SetParamsByTf<StgParams>(_stg_params, _tf, stg_demo_m1, stg_demo_m5, stg_demo_m15, stg_demo_m30, stg_demo_h1,
                              stg_demo_h4, stg_demo_h8);

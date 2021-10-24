@@ -4,8 +4,8 @@
  */
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
-struct Indi_Demo_Params_M5 : DemoIndiParams {
-  Indi_Demo_Params_M5() : DemoIndiParams(indi_demo_defaults, PERIOD_M5) { shift = 0; }
+struct Indi_Demo_Params_M5 : IndiDemoParams {
+  Indi_Demo_Params_M5() : IndiDemoParams(indi_demo_defaults, PERIOD_M5) { shift = 0; }
 } indi_demo_m5;
 
 // Defines strategy's parameter values for the given pair symbol and timeframe.
