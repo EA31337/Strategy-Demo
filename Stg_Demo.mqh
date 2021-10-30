@@ -28,13 +28,6 @@ INPUT ENUM_IDATA_SOURCE_TYPE Demo_Indi_Demo_SourceType = IDATA_INDICATOR;  // So
 
 // Structs.
 
-// Defines struct with default user indicator values.
-struct Indi_Demo_Params_Defaults : IndiDemoParams {
-  Indi_Demo_Params_Defaults() : IndiDemoParams(::Demo_Indi_Demo_Shift) {
-    SetDataSourceType(::Demo_Indi_Demo_SourceType);
-  }
-};
-
 // Defines struct with default user strategy values.
 struct Stg_Demo_Params_Defaults : StgParams {
   Stg_Demo_Params_Defaults()
@@ -86,8 +79,8 @@ class Stg_Demo : public Strategy {
    * Event on strategy's init.
    */
   void OnInit() {
-    Indi_Demo_Params_Defaults _indi_demo_defaults;
-    IndiDemoParams _indi_params(_indi_demo_defaults, Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
+    IndiDemoParams _indi_params(::Demo_Indi_Demo_Shift);
+    _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
     SetIndicator(new Indi_Demo(_indi_params));
   }
 
