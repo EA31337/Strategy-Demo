@@ -68,13 +68,9 @@ class Stg_Demo : public Strategy {
 
   static Stg_Demo *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
-    Indi_Demo_Params_Defaults _indi_demo_defaults;
-    IndiDemoParams _indi_params(_indi_demo_defaults, _tf);
     Stg_Demo_Params_Defaults stg_demo_defaults;
     StgParams _stg_params(stg_demo_defaults);
 #ifdef __config__
-    SetParamsByTf<IndiDemoParams>(_indi_params, _tf, indi_demo_m1, indi_demo_m5, indi_demo_m15, indi_demo_m30,
-                                  indi_demo_h1, indi_demo_h4, indi_demo_h8);
     SetParamsByTf<StgParams>(_stg_params, _tf, stg_demo_m1, stg_demo_m5, stg_demo_m15, stg_demo_m30, stg_demo_h1,
                              stg_demo_h4, stg_demo_h8);
 #endif
@@ -83,8 +79,16 @@ class Stg_Demo : public Strategy {
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
     Strategy *_strat = new Stg_Demo(_stg_params, _tparams, _cparams, "Demo");
-    _strat.SetIndicator(new Indi_Demo(_indi_params));
     return _strat;
+  }
+
+  /**
+   * Event on strategy's init.
+   */
+  void OnInit() {
+    Indi_Demo_Params_Defaults _indi_demo_defaults;
+    IndiDemoParams _indi_params(_indi_demo_defaults, Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
+    SetIndicator(new Indi_Demo(_indi_params));
   }
 
   /**
