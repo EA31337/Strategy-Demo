@@ -5,6 +5,7 @@
 [![Channel][tg-channel-image]][tg-channel-link]
 [![Discuss][gh-discuss-badge]][gh-discuss-link]
 [![License][license-image]][license-link]
+[![Edit][gh-edit-badge]][gh-edit-link]
 
 Strategy based on the Demo indicator.
 
@@ -24,6 +25,9 @@ This is example demo strategy for the demonstration purposes.
 
 [gh-discuss-badge]: https://img.shields.io/badge/Discussions-Q&A-blue.svg?logo=github
 [gh-discuss-link]: https://github.com/EA31337/EA31337-Strategies/discussions
+
+[gh-edit-badge]: https://img.shields.io/badge/GitHub-edit-purple.svg?logo=github
+[gh-edit-link]: https://github.dev/EA31337/Strategy-Demo
 
 [gha-link-check-master]: https://github.com/EA31337/Strategy-Demo/actions?query=workflow:Check+branch%3Amaster
 [gha-image-check-master]: https://github.com/EA31337/Strategy-Demo/workflows/Check/badge.svg?branch=master
