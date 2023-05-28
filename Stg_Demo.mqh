@@ -59,7 +59,7 @@ class Stg_Demo : public Strategy {
   Stg_Demo(StgParams &_sparams, TradeParams &_tparams, ChartParams &_cparams, string _name = "")
       : Strategy(_sparams, _tparams, _cparams, _name) {}
 
-  static Stg_Demo *Init(ENUM_TIMEFRAMES _tf = NULL) {
+  static Stg_Demo *Init(ENUM_TIMEFRAMES _tf = NULL, EA* _ea = NULL) {
     // Initialize strategy initial values.
     Stg_Demo_Params_Defaults stg_demo_defaults;
     StgParams _stg_params(stg_demo_defaults);
