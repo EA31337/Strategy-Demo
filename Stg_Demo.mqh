@@ -43,17 +43,6 @@ struct Stg_Demo_Params_Defaults : StgParams {
   }
 };
 
-#ifdef __config__
-// Loads pair specific param values.
-#include "config/H1.h"
-#include "config/H4.h"
-#include "config/H8.h"
-#include "config/M1.h"
-#include "config/M15.h"
-#include "config/M30.h"
-#include "config/M5.h"
-#endif
-
 class Stg_Demo : public Strategy {
  public:
   Stg_Demo(StgParams &_sparams, TradeParams &_tparams, ChartParams &_cparams, string _name = "")
@@ -63,11 +52,6 @@ class Stg_Demo : public Strategy {
     // Initialize strategy initial values.
     Stg_Demo_Params_Defaults stg_demo_defaults;
     StgParams _stg_params(stg_demo_defaults);
-#ifdef __config__
-    SetParamsByTf<StgParams>(_stg_params, _tf, stg_demo_m1, stg_demo_m5, stg_demo_m15, stg_demo_m30, stg_demo_h1,
-                             stg_demo_h4, stg_demo_h8);
-#endif
-    // Initialize indicator.
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
@@ -79,6 +63,7 @@ class Stg_Demo : public Strategy {
    * Event on strategy's init.
    */
   void OnInit() {
+    // Initialize indicators.
     IndiDemoParams _indi_params(::Demo_Indi_Demo_Shift);
     _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
     SetIndicator(new Indi_Demo(_indi_params));
