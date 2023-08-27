@@ -18,12 +18,9 @@ This is example demo strategy for the demonstration purposes.
 
 | Tag      | Framework |
 |:--------:|:---------:|
-| v1.000   | v2.000    |
-| v1.001   | v2.001    |
-| ...      | ...       |
-| v1.012   | v2.012    |
-| v1.013   | v2.013    |
 | v2.000   | v3.000.1  |
+| v2.001   | v3.001.1  |
+| v2.002   | v3.002    |
 
 <!-- Named links -->
 
