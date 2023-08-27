@@ -3,6 +3,7 @@
 [![Status][gha-image-check-master]][gha-link-check-master]
 [![Status][gha-image-compile-master]][gha-link-compile-master]
 [![Channel][tg-channel-image]][tg-channel-link]
+[![Twitter][twitter-image]][twitter-link]
 [![Discuss][gh-discuss-badge]][gh-discuss-link]
 [![License][license-image]][license-link]
 
@@ -36,3 +37,6 @@ This is example demo strategy for the demonstration purposes.
 
 [license-image]: https://img.shields.io/github/license/EA31337/EA31337-Strategies.svg
 [license-link]: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)
+
+[twitter-image]: https://img.shields.io/badge/EA31337-Follow-1DA1F2.svg?logo=Twitter
+[twitter-link]: https://twitter.com/EA31337
