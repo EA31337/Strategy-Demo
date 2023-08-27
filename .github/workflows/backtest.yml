@@ -23,8 +23,8 @@ jobs:
         shell: powershell
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           path: Include/EA31337-classes
           ref: v3.000.1
@@ -48,7 +48,7 @@ jobs:
         run: '(Get-ChildItem -Recurse -Path . -Include *.ex[45]).fullname'
       - run: Get-Location
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: EA
           path: '*.ex[45]'
@@ -60,7 +60,7 @@ jobs:
         month: [1]
         year: [2019, 2020]
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: EA
       - name: Run strategy
@@ -77,7 +77,7 @@ jobs:
           TestPeriod: M1
           TestReportName: Report-${{ matrix.year }}-${{ matrix.month }}
       - name: Upload results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: results
           path: ${{ github.workspace }}/_results/*.*
